@@ -37,6 +37,7 @@ class App(customtkinter.CTk):
         #2つ目のフレームの設定
         self.search_frame = SearchFrame(master=self, corner_radius=0,)
         self.search_frame.grid(row=1, column=0,padx=10, pady=10, sticky="ew")
+        self.search_frame.configure(fg_color="#AEC2B4")
         
         #3つ目のフレームの設定
         self.info_frame = InfoFrame(master=self)
@@ -98,7 +99,7 @@ class InfoFrame(customtkinter.CTkFrame):
 
     def setup_form(self):
         #購入者情報
-        self.purchaser_info = customtkinter.CTkTextbox(self, width=450)
+        self.purchaser_info = customtkinter.CTkTextbox(self, width=450, fg_color="#AEC2B4")
         self.purchaser_info.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
         self.purchaser_info.insert("0.0", "購入者情報\n\n")
         
@@ -113,8 +114,10 @@ class InfoFrame(customtkinter.CTkFrame):
         self.product_list.insert("0.0", "商品一覧\n\n")
         
         #購入ボタン
-        self.button_buy = customtkinter.CTkButton(master=self, text="購入", font=self.fonts)
+        self.button_buy = customtkinter.CTkButton(master=self, text="購入", font=self.fonts, text_color="black", hover_color="#B9D0B4", fg_color="#AEC2B4")
         self.button_buy.grid(row=3, column=1, padx=(300,10), pady=(0,10))
+        
+        
 if __name__ == "__main__":
     app = App()
     app.mainloop()
