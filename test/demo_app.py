@@ -114,7 +114,7 @@ class InfoFrame(customtkinter.CTkFrame):
         self.product_list.insert("0.0", "商品一覧\n\n")
         
         #購入ボタン
-        self.button_buy = customtkinter.CTkButton(master=self, text="購入", font=self.fonts, text_color="black", hover_color="#B9D0B4", fg_color="#AEC2B4")
+        self.button_buy = customtkinter.CTkButton(master=self, text="購入", font=self.fonts, text_color="black", hover_color="#B9D0B4", fg_color="#478A56")
         self.button_buy.grid(row=3, column=1, padx=(300,10), pady=(0,10))
         
         
