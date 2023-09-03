@@ -1,5 +1,6 @@
 import tkinter as tk
 import customtkinter
+from PIL import Image, ImageTk
 import os
 
 FONT_TYPE = "meiryo"
@@ -59,11 +60,13 @@ class NavigationFrame(customtkinter.CTkFrame):
 
     def setup_form(self):
         # 設定ボタン
-        self.button_setting = customtkinter.CTkButton(master=self, text="設定", font=self.fonts, width=34, height=60)
+        self.original_image=Image.open("C:\\Users\\樋口剛琉\\Git\\tkinter-gui-pracctice\\img\\settei.png")
+        self.resized_image = self.original_image.resize((30, 30))
+        self.button_setting = customtkinter.CTkButton(master=self, text="設定", text_color="#646A64", fg_color="#FFFFFF", compound="top", image=ImageTk.PhotoImage(self.resized_image), font=self.fonts, width=34, height=60)
         self.button_setting.place(x=32, y=2)
         
         # ホームボタン
-        self.button_home = customtkinter.CTkButton(master=self, text="ホーム", font=self.fonts, width=34, height=60)
+        self.button_home = customtkinter.CTkButton(master=self, text="ホーム", compound="top", image=tk.PhotoImage(file="C:\\Users\\樋口剛琉\\Git\\tkinter-gui-pracctice\\img\\home2.png"), font=self.fonts, width=34, height=60)
         self.button_home.place(x=122, y=3)
         
         #管理者選択ボタン
