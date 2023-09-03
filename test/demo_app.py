@@ -31,17 +31,17 @@ class App(customtkinter.CTk):
         
         # 1つ目のフレームの設定
         # stickyは拡大したときに広がる方向のこと。nsew で4方角で指定する。
-        self.navigation_frame = NavigationFrame(master=self, corner_radius=0)
-        self.navigation_frame.grid(row=0, column=0,padx=10, pady=10, sticky="ew")
+        self.navigation_frame = NavigationFrame(master=self, width=940, height=60, corner_radius=0)
+        self.navigation_frame.place(x=10, y=10)
         
         #2つ目のフレームの設定
-        self.search_frame = SearchFrame(master=self, corner_radius=0,)
-        self.search_frame.grid(row=1, column=0,padx=10, pady=10, sticky="ew")
+        self.search_frame = SearchFrame(master=self, corner_radius=0, width=940, height=60)
+        self.search_frame.place(x=10, y=80)
         self.search_frame.configure(fg_color="#AEC2B4")
         
         #3つ目のフレームの設定
-        self.info_frame = InfoFrame(master=self)
-        self.info_frame.grid(row=2, column=0,padx=10, pady=10, sticky="ew")
+        self.info_frame = InfoFrame(master=self, width=940, height=480)
+        self.info_frame.place(x=10, y=150)
         
         self.resizable(False, False)
 
@@ -59,16 +59,16 @@ class NavigationFrame(customtkinter.CTkFrame):
 
     def setup_form(self):
         # 設定ボタン
-        self.button_setting = customtkinter.CTkButton(master=self, text="設定", font=self.fonts)
-        self.button_setting.grid(row=1, column=0, padx=10, pady=10)
+        self.button_setting = customtkinter.CTkButton(master=self, text="設定", font=self.fonts, width=34, height=60)
+        self.button_setting.place(x=32, y=2)
         
         # ホームボタン
-        self.button_home = customtkinter.CTkButton(master=self, text="ホーム", font=self.fonts)
-        self.button_home.grid(row=1, column=1, padx=10, pady=10)
+        self.button_home = customtkinter.CTkButton(master=self, text="ホーム", font=self.fonts, width=34, height=60)
+        self.button_home.place(x=122, y=3)
         
         #管理者選択ボタン
-        self.button_manager_serect = customtkinter.CTkOptionMenu(master=self, values=["山田花子", "山口友也", "樋口剛琉"])
-        self.button_manager_serect.grid(row=1, column=2, padx=(460,10), pady=10,)
+        self.button_manager_serect = customtkinter.CTkOptionMenu(master=self, values=["山田花子", "山口友也", "樋口剛琉"], width=147, height=40.16)
+        self.button_manager_serect.place(x=786, y=12)
 
 
 class SearchFrame(customtkinter.CTkFrame):
@@ -83,8 +83,8 @@ class SearchFrame(customtkinter.CTkFrame):
 
     def setup_form(self):
         #検索バー
-        self.entry = customtkinter.CTkEntry(self, placeholder_text="入力してください", width=920)
-        self.entry.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
+        self.entry = customtkinter.CTkEntry(self, placeholder_text="入力してください", width=400, height=40)
+        self.entry.place(x=20, y=10)
 
 
 class InfoFrame(customtkinter.CTkFrame):
@@ -99,24 +99,24 @@ class InfoFrame(customtkinter.CTkFrame):
 
     def setup_form(self):
         #購入者情報
-        self.purchaser_info = customtkinter.CTkTextbox(self, width=450, fg_color="#AEC2B4")
-        self.purchaser_info.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+        self.purchaser_info = customtkinter.CTkTextbox(self, width=373, height=144, fg_color="#AEC2B4")
+        self.purchaser_info.place(x=32, y=15)
         self.purchaser_info.insert("0.0", "購入者情報\n\n")
         
         #スキャン商品一覧
-        self.scanned_product = customtkinter.CTkTextbox(self, width=450)
-        self.scanned_product.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
+        self.scanned_product = customtkinter.CTkTextbox(self, width=373, height=72)
+        self.scanned_product.place(x=32, y=205)
         self.scanned_product.insert("0.0", "スキャンした商品\n\n")
         
         #商品一覧
-        self.product_list = customtkinter.CTkTextbox(self, width=450)
-        self.product_list.grid(row=0, column=1, rowspan=2, padx=10, pady=10, sticky="nsew")
+        self.product_list = customtkinter.CTkTextbox(self, width=453, height=296)
+        self.product_list.place(x=475, y=15)
         self.product_list.insert("0.0", "商品一覧\n\n")
         
         #購入ボタン
-        self.button_buy = customtkinter.CTkButton(master=self, text="購入", font=self.fonts, text_color="black", hover_color="#B9D0B4", fg_color="#478A56")
-        self.button_buy.grid(row=3, column=1, padx=(300,10), pady=(0,10))
-        
+        self.button_buy = customtkinter.CTkButton(master=self, width=152, height=48, text="購入", font=self.fonts, text_color="black", hover_color="#B9D0B4", fg_color="#478A56")
+        self.button_buy.place(x=776, y=566)
+       
         
 if __name__ == "__main__":
     app = App()
