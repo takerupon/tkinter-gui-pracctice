@@ -40,8 +40,12 @@ class App(customtkinter.CTk):
         self.search_frame.place(x=10, y=80)
         
         #3つ目のフレームの設定
-        self.info_frame = InfoFrame(master=self, width=940, height=480)
+        self.info_frame = InfoFrame(master=self, width=465, height=480)
         self.info_frame.place(x=10, y=150)
+        
+        #4つ目のフレームの設定
+        self.product_frame=ProductFrame(master=self, width=465, height=480)
+        self.product_frame.place(x=485, y=150)
         
         self.resizable(False, False)
 
@@ -119,7 +123,7 @@ class InfoFrame(customtkinter.CTkFrame):
         self.scanned_product = customtkinter.CTkTextbox(self, width=373, height=72)
         self.scanned_product.place(x=32, y=205)
         self.scanned_product.insert("0.0", "スキャンした商品\n\n")
-        
+        '''
         #商品一覧
         self.product_list = customtkinter.CTkTextbox(self, width=453, height=296)
         self.product_list.place(x=475, y=15)
@@ -128,8 +132,30 @@ class InfoFrame(customtkinter.CTkFrame):
         #購入ボタン
         self.button_buy = customtkinter.CTkButton(master=self, width=152, height=48, text="購入", font=self.fonts, text_color="black", hover_color="#B9D0B4", fg_color="#478A56")
         self.button_buy.place(x=776, y=418)
+        '''
        
+
+class ProductFrame(customtkinter.CTkFrame):
+    def __init__(self, *args, header_name="ProductFrame", **kwargs):
+        super().__init__(*args, **kwargs)
         
+        self.fonts = (FONT_TYPE, 15)
+        self.header_name = header_name
+
+        # フォームのセットアップをする
+        self.setup_form()
+            
+    def setup_form(self):
+        #商品一覧
+        self.product_list = customtkinter.CTkTextbox(self, width=453, height=296)
+        self.product_list.place(x=475, y=15)
+        self.product_list.insert("0.0", "商品一覧\n\n")
+        
+        #購入ボタン
+        self.button_buy = customtkinter.CTkButton(master=self, width=152, height=48, text="購入", font=self.fonts, text_color="black", hover_color="#B9D0B4", fg_color="#478A56")
+        self.button_buy.place(x=776, y=418)
+
+      
 if __name__ == "__main__":
     app = App()
     app.mainloop()
