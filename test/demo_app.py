@@ -78,7 +78,8 @@ class NavigationFrame(customtkinter.CTkFrame):
         self.label_screen.place(x=456, y=21)
         
         #管理者選択ボタン
-        self.button_manager_serect = customtkinter.CTkOptionMenu(master=self, values=["山田花子", "山口友也", "樋口剛琉"], width=147, height=40.16)
+        self.button_manager_serect = customtkinter.CTkOptionMenu(master=self, values=["山田花子", "山口友也", "樋口剛琉"], text_color="#000000", fg_color="#FFFFFF",
+                                                                 button_color="#FFFFFF", button_hover_color="#dcdcdc",  width=147, height=40.16)
         self.button_manager_serect.place(x=786, y=12)
 
 
@@ -126,7 +127,7 @@ class InfoFrame(customtkinter.CTkFrame):
         
         #購入ボタン
         self.button_buy = customtkinter.CTkButton(master=self, width=152, height=48, text="購入", font=self.fonts, text_color="black", hover_color="#B9D0B4", fg_color="#478A56")
-        self.button_buy.place(x=776, y=566)
+        self.button_buy.place(x=776, y=418)
        
         
 if __name__ == "__main__":
