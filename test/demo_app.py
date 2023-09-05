@@ -32,13 +32,12 @@ class App(customtkinter.CTk):
         
         # 1つ目のフレームの設定
         # stickyは拡大したときに広がる方向のこと。nsew で4方角で指定する。
-        self.navigation_frame = NavigationFrame(master=self, width=940, height=60, corner_radius=0)
+        self.navigation_frame = NavigationFrame(master=self, width=940, height=60, corner_radius=0, fg_color="#FFFFFF")
         self.navigation_frame.place(x=10, y=10)
         
         #2つ目のフレームの設定
-        self.search_frame = SearchFrame(master=self, corner_radius=0, width=940, height=60)
+        self.search_frame = SearchFrame(master=self, corner_radius=0, width=940, height=60,fg_color="#AEC2B4")
         self.search_frame.place(x=10, y=80)
-        self.search_frame.configure(fg_color="#AEC2B4")
         
         #3つ目のフレームの設定
         self.info_frame = InfoFrame(master=self, width=940, height=480)
@@ -60,13 +59,18 @@ class NavigationFrame(customtkinter.CTkFrame):
 
     def setup_form(self):
         # 設定ボタン
-        self.original_image=Image.open("C:\\Users\\樋口剛琉\\Git\\tkinter-gui-pracctice\\img\\settei.png")
+        self.original_image=Image.open("C:\\Users\\樋口剛琉\\Git\\tkinter-gui-pracctice\\img\\setting_icon.png")
         self.resized_image = self.original_image.resize((30, 30))
-        self.button_setting = customtkinter.CTkButton(master=self, text="設定", text_color="#646A64", fg_color="#FFFFFF", compound="top", image=ImageTk.PhotoImage(self.resized_image), font=self.fonts, width=34, height=60)
+        self.font_setting=("setting", 10)
+        self.button_setting = customtkinter.CTkButton(master=self, text="設定", text_color="#646A64", font=self.font_setting, fg_color="#FFFFFF",
+                                                      hover_color="#dcdcdc", compound="top", image=ImageTk.PhotoImage(self.resized_image), width=34, height=60)
         self.button_setting.place(x=32, y=2)
         
         # ホームボタン
-        self.button_home = customtkinter.CTkButton(master=self, text="ホーム", compound="top", image=tk.PhotoImage(file="C:\\Users\\樋口剛琉\\Git\\tkinter-gui-pracctice\\img\\home2.png"), font=self.fonts, width=34, height=60)
+        self.icon_home=Image.open("C:\\Users\\樋口剛琉\\Git\\tkinter-gui-pracctice\\img\\home2.png").resize((30, 30))
+        self.font_home=("home", 10)
+        self.button_home = customtkinter.CTkButton(master=self, text="ホーム", text_color="#646A64", compound="top", fg_color="#FFFFFF",
+                                                   hover_color="#dcdcdc", image=ImageTk.PhotoImage(self.icon_home), font=self.font_home, width=34, height=60)
         self.button_home.place(x=122, y=3)
         
         #管理者選択ボタン
