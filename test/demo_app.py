@@ -73,6 +73,10 @@ class NavigationFrame(customtkinter.CTkFrame):
                                                    hover_color="#dcdcdc", image=ImageTk.PhotoImage(self.icon_home), font=self.font_home, width=34, height=60)
         self.button_home.place(x=122, y=3)
         
+        #画面状態表示
+        self.label_screen=customtkinter.CTkLabel(master=self, text="販売", text_color="#000000", font=("販売", 20), fg_color="#FFFFFF")
+        self.label_screen.place(x=456, y=21)
+        
         #管理者選択ボタン
         self.button_manager_serect = customtkinter.CTkOptionMenu(master=self, values=["山田花子", "山口友也", "樋口剛琉"], width=147, height=40.16)
         self.button_manager_serect.place(x=786, y=12)
