@@ -1,111 +1,133 @@
-import tkinter as tk
 import customtkinter
 import os
+from PIL import Image
 
-FONT_TYPE = "meiryo"
+
+class ScrollableCheckBoxFrame(customtkinter.CTkScrollableFrame):
+    def __init__(self, master, item_list, command=None, **kwargs):
+        super().__init__(master, **kwargs)
+
+        self.command = command
+        self.checkbox_list = []
+        for i, item in enumerate(item_list):
+            self.add_item(item)
+
+    def add_item(self, item):
+        checkbox = customtkinter.CTkCheckBox(self, text=item)
+        if self.command is not None:
+            checkbox.configure(command=self.command)
+        checkbox.grid(row=len(self.checkbox_list), column=0, pady=(0, 10))
+        self.checkbox_list.append(checkbox)
+
+    def remove_item(self, item):
+        for checkbox in self.checkbox_list:
+            if item == checkbox.cget("text"):
+                checkbox.destroy()
+                self.checkbox_list.remove(checkbox)
+                return
+
+    def get_checked_items(self):
+        return [checkbox.cget("text") for checkbox in self.checkbox_list if checkbox.get() == 1]
+
+
+class ScrollableRadiobuttonFrame(customtkinter.CTkScrollableFrame):
+    def __init__(self, master, item_list, command=None, **kwargs):
+        super().__init__(master, **kwargs)
+
+        self.command = command
+        self.radiobutton_variable = customtkinter.StringVar()
+        self.radiobutton_list = []
+        for i, item in enumerate(item_list):
+            self.add_item(item)
+
+    def add_item(self, item):
+        radiobutton = customtkinter.CTkRadioButton(self, text=item, value=item, variable=self.radiobutton_variable)
+        if self.command is not None:
+            radiobutton.configure(command=self.command)
+        radiobutton.grid(row=len(self.radiobutton_list), column=0, pady=(0, 10))
+        self.radiobutton_list.append(radiobutton)
+
+    def remove_item(self, item):
+        for radiobutton in self.radiobutton_list:
+            if item == radiobutton.cget("text"):
+                radiobutton.destroy()
+                self.radiobutton_list.remove(radiobutton)
+                return
+
+    def get_checked_item(self):
+        return self.radiobutton_variable.get()
+
+
+class ScrollableLabelButtonFrame(customtkinter.CTkScrollableFrame):
+    def __init__(self, master, command=None, **kwargs):
+        super().__init__(master, **kwargs)
+        self.grid_columnconfigure(0, weight=1)
+
+        self.command = command
+        self.radiobutton_variable = customtkinter.StringVar()
+        self.label_list = []
+        self.button_list = []
+
+    def add_item(self, item, image=None):
+        label = customtkinter.CTkLabel(self, text=item, image=image, compound="left", padx=5, anchor="w")
+        button = customtkinter.CTkButton(self, text="Command", width=100, height=24)
+        if self.command is not None:
+            button.configure(command=lambda: self.command(item))
+        label.grid(row=len(self.label_list), column=0, pady=(0, 10), sticky="w")
+        button.grid(row=len(self.button_list), column=1, pady=(0, 10), padx=5)
+        self.label_list.append(label)
+        self.button_list.append(button)
+
+    def remove_item(self, item):
+        for label, button in zip(self.label_list, self.button_list):
+            if item == label.cget("text"):
+                label.destroy()
+                button.destroy()
+                self.label_list.remove(label)
+                self.button_list.remove(button)
+                return
+
 
 class App(customtkinter.CTk):
-
     def __init__(self):
         super().__init__()
 
-        # メンバー変数の設定
-        self.fonts = (FONT_TYPE, 15)
-        self.csv_filepath = None
-
-        # フォームのセットアップをする
-        self.setup_form()
-
-    def setup_form(self):
-        # CustomTkinter のフォームデザイン設定
-        customtkinter.set_appearance_mode("dark")  # Modes: system (default), light, dark
-        customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
-
-        # フォームサイズ設定
-        self.geometry("1000x300")
-        self.title("CSV plot viewer")
-
-        # 行方向のマスのレイアウトを設定する。リサイズしたときに一緒に拡大したい行をweight 1に設定。
-        self.grid_rowconfigure(1, weight=1)
-        # 列方向のマスのレイアウトを設定する
-        self.grid_columnconfigure(0, weight=1)
-
-        # 1つ目のフレームの設定
-        # stickyは拡大したときに広がる方向のこと。nsew で4方角で指定する。
-        self.read_file_frame = ReadFileFrame(master=self, header_name="ファイル読み込み")
-        self.read_file_frame.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
-
-class ReadFileFrame(customtkinter.CTkFrame):
-    def __init__(self, *args, header_name="ReadFileFrame", **kwargs):
-        super().__init__(*args, **kwargs)
-        
-        self.fonts = (FONT_TYPE, 15)
-        self.header_name = header_name
-
-        # フォームのセットアップをする
-        self.setup_form()
-
-    def setup_form(self):
-        # 行方向のマスのレイアウトを設定する。リサイズしたときに一緒に拡大したい行をweight 1に設定。
+        self.title("CTkScrollableFrame example")
         self.grid_rowconfigure(0, weight=1)
-        # 列方向のマスのレイアウトを設定する
-        self.grid_columnconfigure(0, weight=1)
+        self.columnconfigure(2, weight=1)
 
-        # フレームのラベルを表示
-        self.label = customtkinter.CTkLabel(self, text=self.header_name, font=(FONT_TYPE, 11))
-        self.label.grid(row=0, column=0, padx=20, sticky="w")
+        # create scrollable checkbox frame
+        self.scrollable_checkbox_frame = ScrollableCheckBoxFrame(master=self, width=200, command=self.checkbox_frame_event,
+                                                                 item_list=[f"item {i}" for i in range(50)])
+        self.scrollable_checkbox_frame.grid(row=0, column=0, padx=15, pady=15, sticky="ns")
+        self.scrollable_checkbox_frame.add_item("new item")
 
-        # ファイルパスを指定するテキストボックス。これだけ拡大したときに、幅が広がるように設定する。
-        self.textbox = customtkinter.CTkEntry(master=self, placeholder_text="CSV ファイルを読み込む", width=120, font=self.fonts)
-        self.textbox.grid(row=1, column=0, padx=10, pady=(0,10), sticky="ew")
+        # create scrollable radiobutton frame
+        self.scrollable_radiobutton_frame = ScrollableRadiobuttonFrame(master=self, width=500, command=self.radiobutton_frame_event,
+                                                                       item_list=[f"item {i}" for i in range(100)],
+                                                                       label_text="ScrollableRadiobuttonFrame")
+        self.scrollable_radiobutton_frame.grid(row=0, column=1, padx=15, pady=15, sticky="ns")
+        self.scrollable_radiobutton_frame.configure(width=200)
+        self.scrollable_radiobutton_frame.remove_item("item 3")
 
-        # ファイル選択ボタン
-        self.button_select = customtkinter.CTkButton(master=self, 
-            fg_color="transparent", border_width=2, text_color=("gray10", "#DCE4EE"),   # ボタンを白抜きにする
-            command=self.button_select_callback, text="ファイル選択", font=self.fonts)
-        self.button_select.grid(row=1, column=1, padx=10, pady=(0,10))
-        
-        # 開くボタン
-        self.button_open = customtkinter.CTkButton(master=self, command=self.button_open_callback, text="開く", font=self.fonts)
-        self.button_open.grid(row=1, column=2, padx=10, pady=(0,10))
+        # create scrollable label and button frame
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        self.scrollable_label_button_frame = ScrollableLabelButtonFrame(master=self, width=300, command=self.label_button_frame_event, corner_radius=0)
+        self.scrollable_label_button_frame.grid(row=0, column=2, padx=0, pady=0, sticky="nsew")
+        for i in range(20):  # add items with images
+            self.scrollable_label_button_frame.add_item(f"image and item {i}", image=customtkinter.CTkImage(Image.open(os.path.join(current_dir, "test_images", "chat_light.png"))))
 
-    def button_select_callback(self):
-        """
-        選択ボタンが押されたときのコールバック。ファイル選択ダイアログを表示する
-        """
-        # エクスプローラーを表示してファイルを選択する
-        file_name = ReadFileFrame.file_read()
+    def checkbox_frame_event(self):
+        print(f"checkbox frame modified: {self.scrollable_checkbox_frame.get_checked_items()}")
 
-        if file_name is not None:
-            # ファイルパスをテキストボックスに記入
-            self.textbox.delete(0, tk.END)
-            self.textbox.insert(0, file_name)
+    def radiobutton_frame_event(self):
+        print(f"radiobutton frame modified: {self.scrollable_radiobutton_frame.get_checked_item()}")
 
-    def button_open_callback(self):
-        """
-        開くボタンが押されたときのコールバック。暫定機能として、ファイルの中身をprintする
-        """
-        file_name = self.textbox.get()
-        if file_name is not None or len(file_name) != 0:
-            with open(file_name) as f:
-                data = f.read()
-                print(data)
-            
-    @staticmethod
-    def file_read():
-        """
-        ファイル選択ダイアログを表示する
-        """
-        current_dir = os.path.abspath(os.path.dirname(__file__))
-        file_path = tk.filedialog.askopenfilename(filetypes=[("csvファイル","*.csv")],initialdir=current_dir)
-
-        if len(file_path) != 0:
-            return file_path
-        else:
-            # ファイル選択がキャンセルされた場合
-            return None
+    def label_button_frame_event(self, item):
+        print(f"label button frame clicked: {item}")
 
 
 if __name__ == "__main__":
+    customtkinter.set_appearance_mode("dark")
     app = App()
     app.mainloop()
