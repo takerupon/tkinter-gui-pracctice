@@ -39,11 +39,11 @@ class App(customtkinter.CTk):
         self.search_frame.place(x=10, y=80)
 
         #3つ目のフレームの設定
-        self.info_frame = InfoFrame(master=self, width=450, height=469)
+        self.info_frame = InfoFrame(master=self, width=450, height=469, fg_color="#EAEEEB")
         self.info_frame.place(x=10, y=150)
 
         #4つ目のフレームの設定
-        self.product_frame=ProductFrame(master=self, width=465, height=480)
+        self.product_frame=ProductFrame(master=self, width=465, height=480, fg_color="#EAEEEB")
         self.product_frame.place(x=485, y=150)
 
         self.resizable(False, False)
@@ -136,12 +136,11 @@ class InfoFrame(customtkinter.CTkScrollableFrame):
         #購入者情報
         self.purchaser_info = customtkinter.CTkLabel(self, width=373, height=144, fg_color="#AEC2B4")
         self.purchaser_info.grid(row=0, column=0, padx=32, pady=15)
-'''
+
         #スキャン商品一覧
-        self.scanned_product = customtkinter.CTkTextbox(self, width=373, height=72)
-        self.scanned_product.place(x=32, y=205)
-        self.scanned_product.insert("0.0", "スキャンした商品\n\n")
-'''
+        self.scanned_product = customtkinter.CTkLabel(self, width=373, height=72, fg_color="#D9D9D9")
+        self.scanned_product.grid(row=1, column=0, padx=32, pady=205)
+
 
 class ProductFrame(customtkinter.CTkFrame):
     def __init__(self, *args, header_name="ProductFrame", **kwargs):
