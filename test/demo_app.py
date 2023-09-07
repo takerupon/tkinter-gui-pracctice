@@ -39,7 +39,7 @@ class App(customtkinter.CTk):
         self.search_frame.place(x=10, y=80)
 
         #3つ目のフレームの設定
-        self.info_frame = InfoFrame(master=self, width=465, height=480)
+        self.info_frame = InfoFrame(master=self, width=450, height=469)
         self.info_frame.place(x=10, y=150)
 
         #4つ目のフレームの設定
@@ -122,7 +122,7 @@ class SearchFrame(customtkinter.CTkFrame):
         self.entry.place(x=20, y=10)
 
 
-class InfoFrame(customtkinter.CTkFrame):
+class InfoFrame(customtkinter.CTkScrollableFrame):
     def __init__(self, *args, header_name="InfoFrame", **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -135,8 +135,7 @@ class InfoFrame(customtkinter.CTkFrame):
     def setup_form(self):
         #購入者情報
         self.purchaser_info = customtkinter.CTkLabel(self, width=373, height=144, fg_color="#AEC2B4")
-        self.purchaser_info.place(x=32, y=15)
-        self.purchaser_info.insert("0.0", "購入者情報\n\n")
+        self.purchaser_info.grid(row=0, column=0, padx=32, pady=15)
 '''
         #スキャン商品一覧
         self.scanned_product = customtkinter.CTkTextbox(self, width=373, height=72)
