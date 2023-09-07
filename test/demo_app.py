@@ -133,13 +133,32 @@ class InfoFrame(customtkinter.CTkScrollableFrame):
         self.setup_form()
 
     def setup_form(self):
+
         #購入者情報
         self.purchaser_info = customtkinter.CTkLabel(self, width=373, height=144, fg_color="#AEC2B4")
-        self.purchaser_info.grid(row=0, column=0, padx=32, pady=15)
+        self.purchaser_info.grid(row=0, column=1, padx=32, pady=15)
 
-        #スキャン商品一覧
-        self.scanned_product = customtkinter.CTkLabel(self, width=373, height=72, fg_color="#D9D9D9")
-        self.scanned_product.grid(row=1, column=0, padx=32, pady=205)
+        #ラベル追加ボタン
+        self.button_add_label = customtkinter.CTkButton(
+            master=self,
+            width=152,
+            height=48,
+            text="add_label",
+            font=self.fonts,
+            text_color="black",
+            hover_color="#B9D0B4",
+            fg_color="#478A56",
+            command=self.add_label)
+        self.button_add_label.grid(row=1, column=1, padx=10, pady=10)
+        self.label_count = 1
+
+    def add_label(self):
+        # 新しいラベルを作成
+        new_label = customtkinter.CTkLabel(self, width=373, height=72, text=f"Label {self.label_count + 1}", fg_color="#FFFFFF")
+        new_label.grid(row=self.label_count + 1, column=1, pady=10)
+
+        # カウンタを更新
+        self.label_count += 1
 
 
 class ProductFrame(customtkinter.CTkFrame):
