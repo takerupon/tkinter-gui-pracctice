@@ -62,7 +62,7 @@ class NavigationFrame(customtkinter.CTkFrame):
 
     def setup_form(self):
         # 設定ボタン
-        self.original_image=Image.open("C:\\Users\\樋口剛琉\\Git\\tkinter-gui-pracctice\\img\\setting_icon.png")
+        self.original_image=Image.open("img/setting_icon.png")
         self.resized_image = self.original_image.resize((30, 30))
         self.font_setting=("setting", 10)
         self.button_setting = customtkinter.CTkButton(
@@ -77,7 +77,7 @@ class NavigationFrame(customtkinter.CTkFrame):
         self.button_setting.place(x=32, y=2)
 
         # ホームボタン
-        self.icon_home=Image.open("C:\\Users\\樋口剛琉\\Git\\tkinter-gui-pracctice\\img\\home2.png").resize((30, 30))
+        self.icon_home=Image.open("img/home2.png").resize((30, 30))
         self.font_home=("home", 10)
         self.button_home = customtkinter.CTkButton(
             master=self,
@@ -86,7 +86,9 @@ class NavigationFrame(customtkinter.CTkFrame):
             compound="top",
             fg_color="#FFFFFF",
             hover_color="#dcdcdc",
-            image=ImageTk.PhotoImage(self.icon_home), font=self.font_home, width=34, height=60)
+            image=ImageTk.PhotoImage(self.icon_home),
+            font=self.font_home,
+            width=34, height=60)
         self.button_home.place(x=122, y=3)
 
         #画面状態表示
