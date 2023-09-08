@@ -1,196 +1,94 @@
 import tkinter as tk
 import customtkinter
 from PIL import Image, ImageTk
-import os
 
 FONT_TYPE = "meiryo"
+FONT_SIZE = 15
+FONT_SETTING = (FONT_TYPE, FONT_SIZE)
 
 class App(customtkinter.CTk):
-
     def __init__(self):
         super().__init__()
-
-        # メンバー変数の設定
-        self.fonts = (FONT_TYPE, 15)
-
-        # フォームのセットアップをする
         self.setup_form()
 
     def setup_form(self):
-        # CustomTkinter のフォームデザイン設定
-        customtkinter.set_appearance_mode("light")  # Modes: system (default), light, dark
-        customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
-
-        # フォームサイズ設定
+        customtkinter.set_appearance_mode("light")
+        customtkinter.set_default_color_theme("blue")
         self.geometry("960x640")
         self.title("Airshop")
-
-        # 行方向のマスのレイアウトを設定する。リサイズしたときに一緒に拡大したい行をweight 1に設定。
         self.grid_rowconfigure(1, weight=1)
-        # 列方向のマスのレイアウトを設定する
         self.grid_columnconfigure(0, weight=1)
 
-        # 1つ目のフレームの設定
-        self.navigation_frame = NavigationFrame(master=self, width=940, height=60, corner_radius=0, fg_color="#FFFFFF")
-        self.navigation_frame.place(x=10, y=10)
-
-        #2つ目のフレームの設定
-        self.search_frame = SearchFrame(master=self, corner_radius=0, width=940, height=60, fg_color="#AEC2B4")
-        self.search_frame.place(x=10, y=80)
-
-        #3つ目のフレームの設定
-        self.info_frame = InfoFrame(master=self, width=450, height=469, fg_color="#EAEEEB")
-        self.info_frame.place(x=10, y=150)
-
-        #4つ目のフレームの設定
-        self.product_frame=ProductFrame(master=self, width=465, height=480, fg_color="#EAEEEB")
-        self.product_frame.place(x=485, y=150)
+        self.navigation_frame = NavigationFrame(self, 940, 60, 10, 10, "#FFFFFF")
+        self.search_frame = SearchFrame(self, 940, 60, 10, 80, "#AEC2B4")
+        self.info_frame = InfoFrame(self, 450, 469, 10, 150, "#EAEEEB")
+        self.product_frame = ProductFrame(self, 465, 480, 485, 150, "#EAEEEB")
 
         self.resizable(False, False)
 
+class BaseFrame(customtkinter.CTkFrame):
+    def __init__(self, master, width, height, x, y, fg_color):
+        super().__init__(master=master, width=width, height=height, fg_color=fg_color)
+        self.place(x=x, y=y)
 
-
-class NavigationFrame(customtkinter.CTkFrame):
-    def __init__(self, *args, header_name="NavigationFrame", **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fonts = (FONT_TYPE, 15)
-        self.header_name = header_name
-
-        # フォームのセットアップをする
+class NavigationFrame(BaseFrame):
+    def __init__(self, master, width, height, x, y, fg_color):
+        super().__init__(master, width, height, x, y, fg_color)
         self.setup_form()
 
     def setup_form(self):
-        # 設定ボタン
-        self.original_image=Image.open("img/setting_icon.png")
-        self.resized_image = self.original_image.resize((30, 30))
-        self.font_setting=("setting", 10)
-        self.button_setting = customtkinter.CTkButton(
-            master=self,
-            text="設定",
-            text_color="#646A64",
-            font=self.font_setting,
-            fg_color="#FFFFFF",
-            hover_color="#dcdcdc",
-            compound="top",
-            image=ImageTk.PhotoImage(self.resized_image), width=34, height=60)
-        self.button_setting.place(x=32, y=2)
+        icons = [("img/setting_icon.png", "設定", 32, 2), ("img/home2.png", "ホーム", 122, 3)]
+        for icon_path, text, x, y in icons:
+            icon = Image.open(icon_path).resize((30, 30))
+            btn = customtkinter.CTkButton(self, text=text, text_color="#000000", compound="top", fg_color="#FFFFFF", hover_color="#dcdcdc", image=ImageTk.PhotoImage(icon), font=("meiryo", 10), width=34, height=60)
+            btn.place(x=x, y=y)
 
-        # ホームボタン
-        self.icon_home=Image.open("img/home2.png").resize((30, 30))
-        self.font_home=("home", 10)
-        self.button_home = customtkinter.CTkButton(
-            master=self,
-            text="ホーム",
-            text_color="#646A64",
-            compound="top",
-            fg_color="#FFFFFF",
-            hover_color="#dcdcdc",
-            image=ImageTk.PhotoImage(self.icon_home),
-            font=self.font_home,
-            width=34, height=60)
-        self.button_home.place(x=122, y=3)
+        label_screen = customtkinter.CTkLabel(self, text="販売", text_color="#000000", font=("販売", 20), fg_color="#FFFFFF")
+        label_screen.place(x=456, y=21)
 
-        #画面状態表示
-        self.label_screen=customtkinter.CTkLabel(master=self, text="販売", text_color="#000000", font=("販売", 20), fg_color="#FFFFFF")
-        self.label_screen.place(x=456, y=21)
+        button_manager_select = customtkinter.CTkOptionMenu(self, values=["山田花子", "山口友也", "樋口剛琉"], text_color="#000000", fg_color="#FFFFFF", button_color="#FFFFFF", button_hover_color="#dcdcdc", width=147, height=40.16)
+        button_manager_select.place(x=786, y=12)
 
-        #管理者選択ボタン
-        self.button_manager_serect = customtkinter.CTkOptionMenu(
-            master=self,
-            values=["山田花子", "山口友也", "樋口剛琉"],
-            text_color="#000000",
-            fg_color="#FFFFFF",
-            button_color="#FFFFFF",
-            button_hover_color="#dcdcdc",
-            width=147,
-            height=40.16)
-        self.button_manager_serect.place(x=786, y=12)
-
-
-class SearchFrame(customtkinter.CTkFrame):
-    def __init__(self, *args, header_name="SearchFrame", **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fonts = (FONT_TYPE, 15)
-        self.header_name = header_name
-
-        # フォームのセットアップをする
+class SearchFrame(BaseFrame):
+    def __init__(self, master, width, height, x, y, fg_color):
+        super().__init__(master, width, height, x, y, fg_color)
         self.setup_form()
 
     def setup_form(self):
-        #検索バー
-        self.entry = customtkinter.CTkEntry(self, placeholder_text="入力してください", width=400, height=40)
-        self.entry.place(x=20, y=10)
-
+        entry = customtkinter.CTkEntry(self, placeholder_text="入力してください", width=400, height=40)
+        entry.place(x=20, y=10)
 
 class InfoFrame(customtkinter.CTkScrollableFrame):
-    def __init__(self, *args, header_name="InfoFrame", **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fonts = (FONT_TYPE, 15)
-        self.header_name = header_name
-
-        # フォームのセットアップをする
+    def __init__(self, master, width, height, x, y, fg_color):
+        super().__init__(master=master, width=width, height=height, fg_color=fg_color)
+        self.place(x=x, y=y)
         self.setup_form()
 
     def setup_form(self):
-
-        #購入者情報
         self.purchaser_info = customtkinter.CTkLabel(self, width=373, height=144, fg_color="#AEC2B4")
         self.purchaser_info.grid(row=0, column=1, padx=32, pady=15)
 
-        #ラベル追加ボタン
-        self.button_add_label = customtkinter.CTkButton(
-            master=self,
-            width=152,
-            height=48,
-            text="add_label",
-            font=self.fonts,
-            text_color="black",
-            hover_color="#B9D0B4",
-            fg_color="#478A56",
-            command=self.add_label)
+        self.button_add_label = customtkinter.CTkButton(self, width=152, height=48, text="add_label", font=FONT_SETTING, text_color="black", hover_color="#B9D0B4", fg_color="#478A56", command=self.add_label)
         self.button_add_label.grid(row=1, column=1, padx=10, pady=10)
         self.label_count = 1
 
     def add_label(self):
-        # 新しいラベルを作成
         new_label = customtkinter.CTkLabel(self, width=373, height=72, text=f"Label {self.label_count + 1}", fg_color="#FFFFFF")
         new_label.grid(row=self.label_count + 1, column=1, pady=10)
-
-        # カウンタを更新
         self.label_count += 1
 
-
-class ProductFrame(customtkinter.CTkFrame):
-    def __init__(self, *args, header_name="ProductFrame", **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fonts = (FONT_TYPE, 15)
-        self.header_name = header_name
-
-        # フォームのセットアップをする
+class ProductFrame(BaseFrame):
+    def __init__(self, master, width, height, x, y, fg_color):
+        super().__init__(master, width, height, x, y, fg_color)
         self.setup_form()
 
     def setup_form(self):
-        #商品一覧
-        self.product_list = customtkinter.CTkTextbox(self, width=440, height=296)
-        self.product_list.place(x=10, y=10)
-        self.product_list.insert("0.0", "商品一覧\n\n")
+        product_list = customtkinter.CTkTextbox(self, width=440, height=296)
+        product_list.place(x=10, y=10)
+        product_list.insert("0.0", "商品一覧\n\n")
 
-        #購入ボタン
-        self.button_buy = customtkinter.CTkButton(
-            master=self,
-            width=152,
-            height=48,
-            text="購入",
-            font=self.fonts,
-            text_color="black",
-            hover_color="#B9D0B4",
-            fg_color="#478A56")
-        self.button_buy.place(x=300, y=418)
-
+        button_buy = customtkinter.CTkButton(self, width=152, height=48, text="購入", font=FONT_SETTING, text_color="black", hover_color="#B9D0B4", fg_color="#478A56")
+        button_buy.place(x=300, y=418)
 
 if __name__ == "__main__":
     app = App()
