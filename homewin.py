@@ -56,7 +56,7 @@ class HomeFrame(BaseFrame):
         state_icons = [("img/hanbai2.png", "販売", 96, 39), ("img/uriage.png", "売上", 509, 39), ("img/packin.png", "取り寄せ依頼", 96, 304), ("img/zaikokanri.png", "在庫管理", 509, 304)]
         for icon_path, text, x, y in state_icons:
             icon = Image.open(icon_path).resize((30, 30))
-            btn_state = customtkinter.CTkButton(self, text=text, text_color="#FFFFFF", compound="right", fg_color="#478A56", hover_color="#B9D0B4", image=ImageTk.PhotoImage(icon), font=FONT_SETTING, width=359, height=207)
+            btn_state = customtkinter.CTkButton(self, text=text, text_color="#FFFFFF", compound="left", fg_color="#478A56", hover_color="#B9D0B4", image=ImageTk.PhotoImage(icon), font=FONT_SETTING, width=359, height=207)
             btn_state.place(x=x, y=y)
 
 
