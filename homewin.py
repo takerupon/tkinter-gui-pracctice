@@ -55,8 +55,13 @@ class HomeFrame(BaseFrame):
     def setup_form(self):
         state_icons = [("img/hanbai2.png", "販売", 96, 39), ("img/uriage.png", "売上", 509, 39), ("img/packin.png", "取り寄せ依頼", 96, 304), ("img/zaikokanri.png", "在庫管理", 509, 304)]
         for icon_path, text, x, y in state_icons:
+<<<<<<< HEAD
             icon = Image.open(icon_path).resize((30, 30))
             btn_state = customtkinter.CTkButton(self, text=text, text_color="#FFFFFF", compound="left", fg_color="#478A56", hover_color="#B9D0B4", image=ImageTk.PhotoImage(icon), font=FONT_SETTING, width=359, height=207)
+=======
+            icon = Image.open(icon_path).resize((40, 40))
+            btn_state = customtkinter.CTkButton(self, text=text, text_color="#FFFFFF", compound="left", fg_color="#478A56", hover_color="#B9D0B4", image=ImageTk.PhotoImage(icon), font=("meiryo", 20), width=359, height=207)
+>>>>>>> 72ccbac2655fe16d583b5baf13923f7146fcc4e7
             btn_state.place(x=x, y=y)
 
 
